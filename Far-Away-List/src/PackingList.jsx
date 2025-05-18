@@ -26,7 +26,6 @@ export default function PackingList({
     sortedItems = items
       .slice()
       .sort((a, b) => a.description.localeCompare(b.description));
-  if (sort === "input") sortedItems = items.slice();
 
   function handleClear() {
     const confirmed = window.confirm(
@@ -54,8 +53,7 @@ export default function PackingList({
         <select value={sort} onChange={(e) => setSort(e.target.value)}>
           <option value="packed">Sorted by Packed Status</option>
           <option value="description">Sorted by Quantity</option>
-          <option value="A-Z">Sorted by A-Z</option>
-          <option value="input">Sorted by Description</option>
+          <option value="A-Z">Sorted Alphabetically</option>
         </select>
         <button onClick={handleClear}>Clear List</button>
       </div>

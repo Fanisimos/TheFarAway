@@ -43,8 +43,14 @@ h1 {
   letter-spacing: -5px;
   padding: 2.4rem 0;
 }
+h2 {
+  background-color: #f4a226;
+  font-size: 2.4rem;
+  padding: 2.4rem 0;
+}
 
 .add-form {
+  text-align: center;
   background-color: #e5771f;
   padding: 2.8rem 0;
   display: flex;
