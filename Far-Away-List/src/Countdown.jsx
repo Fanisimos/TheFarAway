@@ -1,42 +1,49 @@
 import { useState, useEffect } from "react";
 
 function Countdown() {
-  const [countdown, setCountdown] = useState(null);
-  const hours = countdown * 24;
-  const minutes = hours * 60;
-  const seconds = minutes * 60;
-  const secondsInDay = 86400;
+  const [targetDate, setTargetDate] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(0);
 
   useEffect(() => {
-    if (countdown === null) return;
+    if (!targetDate) return;
 
     const interval = setInterval(() => {
-      setCountdown((prevCountdown) => {
-        if (prevCountdown <= 1) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prevCountdown - 1 / secondsInDay;
-      });
+      const now = new Date();
+      const diff = new Date(targetDate) - now;
+
+      if (diff <= 0) {
+        clearInterval(interval);
+        setRemainingTime(0);
+      } else {
+        setRemainingTime(diff);
+      }
     }, 1000);
 
-    // Cleanup the interval when component unmounts or countdown resets
     return () => clearInterval(interval);
-  }, [countdown]);
+  }, [targetDate]);
 
   function handleDateChange(e) {
-    const date = new Date(e.target.value);
-    const today = new Date();
-    const timeDiff = date.getTime() - today.getTime();
-    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    setCountdown(daysDiff);
+    setTargetDate(e.target.value);
   }
+
+  function formatTime(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+
+    const days = Math.floor(totalSeconds / (24 * 3600));
+    const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return { days, hours, minutes, seconds };
+  }
+
+  const { days, hours, minutes, seconds } = formatTime(remainingTime);
 
   return (
     <>
-      {countdown === null ? (
+      {!targetDate ? (
         <h2>
-          Set a countdown for your next trip{" "}
+          Set a countdown for your next trip:{" "}
           <input
             type="date"
             onBlur={handleDateChange}
@@ -49,8 +56,7 @@ function Countdown() {
         <h2>
           Countdown ⏳<p>Time until the next trip:</p>
           <p>
-            {Math.floor(countdown)} days or {Math.floor(hours)} hours or{" "}
-            {Math.floor(minutes)} minutes or {Math.floor(seconds)} seconds
+            {days} days | {hours} hours | {minutes} minutes | {seconds} seconds
           </p>
         </h2>
       )}
