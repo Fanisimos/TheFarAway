@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 function Countdown() {
   const [targetDate, setTargetDate] = useState(null);
@@ -54,10 +55,30 @@ function Countdown() {
         </h2>
       ) : (
         <h2>
-          Countdown ⏳<p>Time until the next trip:</p>
-          <p>
-            {days} days | {hours} hours | {minutes} minutes | {seconds} seconds
-          </p>
+          {remainingTime ? (
+            <>
+              Countdown ⏳<p>Time until the next trip:</p>
+              <p>
+                {days} days | {hours} hours | {minutes} minutes | {seconds}{" "}
+                seconds
+              </p>
+            </>
+          ) : (
+            <>
+              <p>Fetching data... </p>
+              <DotLottieReact
+                src="https://lottie.host/b49d2fa8-9475-4636-ad3a-a40734383af0/sOwlhOozsf.lottie"
+                loop
+                style={{
+                  width: 100,
+                  height: 100,
+                  margin: "0 auto",
+                  display: "block",
+                }}
+                autoplay
+              />
+            </>
+          )}
         </h2>
       )}
     </>
