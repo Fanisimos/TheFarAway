@@ -29,7 +29,7 @@ export default function PackingList({
 
   function handleClear() {
     const confirmed = window.confirm(
-      "Are you sure you want to clear the list?"
+      "Are you sure you want to delete the list?"
     );
     if (confirmed) onSetItems([]);
   }
